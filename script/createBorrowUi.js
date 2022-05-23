@@ -6,20 +6,21 @@ let factoryContractWithSigner = factoryContract.connect(signer);
 
 // Parsing input
 
-function countDecimals () {
-    if(Math.floor(this.valueOf()) === this.valueOf()) return 0;
-    return this.toString().split(".")[1].length || 0; 
+function countDecimals (value) {
+    if (Math.floor(value) !== value)
+        return value.toString().split(".")[1].length || 0;
+    return 0;
 }
 
 function parseTokensForBorrow(_number) {
-    for (var i = 0; i < 18 - countDecimals(number); i++) {
+    for (var i = 0; i < 18 - countDecimals(_number); i++) {
         _number *= 10;
     }
     return _number
 }
 
 async function createBorrow () {
-    var _tokensForBorrow = parseTokensForBorrow(document.getElementById('tokensForBorrow').value);
+    var _tokensForBorrow = parseTokensForBorrow(document.getElementById('tokensForBorrow').value).toString();
     var _tokensForBorrowAddress = document.getElementById('tokensForBorrowAddress').value;
     var _baseTokenAddress = document.getElementById('baseTokenAddress').value;
     var _maintanenceMargin = parseMaintananceMargin(document.getElementById('maintanenceMargin').value);
